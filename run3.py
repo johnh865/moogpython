@@ -146,7 +146,9 @@ class Solver:
         Parameters
         ----------
         coeffs : dict
-            Left hand side of the equation's coefficients for each variable.
+            Left hand side of the equation's coefficients for each force variable.
+            Each key is the force name. Each value is the coefficient 
+            amplitude. 
         rhs : float
             Right hand side value.
         """
@@ -170,7 +172,7 @@ class Solver:
     
     @cached_property
     def vector_dict(self):
-        """Force vectors of solution."""
+        """Force vectors of solution for each force name."""
         force_values = self.solution.flatten()
         vector_names = [f.vector_name() for f in self.forces]
         vector_names = np.unique(vector_names)
@@ -203,6 +205,7 @@ class Solver:
     
     @cached_property
     def magnitude_dict(self):
+        """Force magnitudes of the solution for each force name."""
         out = {}
         for name, values in self.vector_dict.items():
             magnitude = (values[0]**2 + values[1]**2 + values[2]**2)**0.5
@@ -212,6 +215,7 @@ class Solver:
     
     @cached_property
     def elements(self):
+        """dict of Element, indexed by element name."""
         links = {}
         for force in self.forces:
             point = force.point
@@ -230,6 +234,7 @@ class Solver:
     
     @cached_property
     def points(self):
+        """dict of Point, indexed by point name."""
         points = {}
         for force in self.forces:
             point = force.point
