@@ -1,3 +1,4 @@
+"""Solve MOOG FBD Wind fold problem."""
 # -*- coding: utf-8 -*-
 import pdb
 import numpy as np
